@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.version     = SlimSmartListingRails::VERSION
   spec.authors     = ["Martín Rosso"]
   spec.email       = ["mrosso10@gmail.com"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of SlimSmartListingRails."
-  spec.description = "TODO: Description of SlimSmartListingRails."
+  spec.homepage    = "http://BLA"
+  spec.summary     = "Summary of SlimSmartListingRails."
+  spec.description = "Description of SlimSmartListingRails."
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -26,6 +26,9 @@ Gem::Specification.new do |spec|
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   spec.add_dependency "rails", "~> 5.2.4", ">= 5.2.4.1"
+  spec.add_dependency "slim-rails"
+  spec.add_dependency "draper"
+  spec.add_dependency 'smart_listing', '~> 1.2.3'
 
   spec.add_development_dependency "sqlite3"
 end

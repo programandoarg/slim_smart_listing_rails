@@ -1,0 +1,12 @@
+- content_for(:title, '<%= plural_table_name.titleize %>')
+- content_for :actions do
+  = link_to new_<%= singular_table_name %>_path, class: 'btn btn-primary' do 
+    span.fa.fa-plus
+    |  Nuevo <%= human_name %>
+
+.form-wrapper
+  .card.float-e-margins
+    .card-title
+      h5 Listado de <%= plural_table_name %>
+    .card-body
+      = smart_listing_render(:<%= plural_table_name %>)

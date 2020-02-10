@@ -1,0 +1,12 @@
+- content_for :title do
+  | Modificar 
+  | <%= singular_table_name %>
+- content_for :actions do
+  = link_to <%= index_helper %>_path, class: 'btn btn-secondary' do
+    i.fa.fa-list
+    |  Lista de <%= plural_table_name %>
+  = link_to @<%= singular_table_name %>, class: 'btn btn-primary' do
+    span.fa.fa-info
+    |  Ver
+
+= render 'form'

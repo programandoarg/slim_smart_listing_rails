@@ -1,0 +1,10 @@
+- content_for :title do
+  | Crear 
+  | <%= singular_table_name %>
+- content_for :actions do
+  = link_to <%= index_helper %>_path, class: 'btn btn-secondary' do
+    i.fa.fa-list
+    |  Lista de <%= plural_table_name %>
+
+
+= render 'form'
