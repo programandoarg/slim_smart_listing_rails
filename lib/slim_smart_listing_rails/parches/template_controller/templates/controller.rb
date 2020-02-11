@@ -10,21 +10,24 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   def index
     @<%= plural_table_name %> = <%= orm_class.all(class_name) %>
-    <% if namespaced? -%>
+<% if namespaced? -%>
     smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= namespaced_path %>/<%= plural_table_name %>/listing')
-    <% else -%>
+<% else -%>
     smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= plural_table_name %>/listing')
-    <% end -%>
+<% end -%>
   end
 
   def show
+    @<%= singular_table_name %> = @<%= singular_table_name %>.decorate
   end
 
   def new
     @<%= singular_table_name %> = <%= orm_class.build(class_name) %>
+    @<%= singular_table_name %> = @<%= singular_table_name %>.decorate
   end
 
   def edit
+    @<%= singular_table_name %> = @<%= singular_table_name %>.decorate
   end
 
   def create
