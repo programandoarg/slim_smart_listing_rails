@@ -1,4 +1,6 @@
+require "simple_form"
 require 'slim_smart_listing_rails/simple_form/inputs/fecha_input'
+require 'slim_smart_listing_rails/simple_form/inputs/selects_dependientes_input'
 require 'slim_smart_listing_rails/base_decorator'
 
 module SlimSmartListingRails
@@ -18,11 +20,13 @@ module SlimSmartListingRails
         require 'slim_smart_listing_rails/parches/templates_vistas/templates_vistas'
         require 'slim_smart_listing_rails/parches/template_controller/template_controller'
       else
-        require 'slim_smart_listing_rails/simple_form/initializer'
         require 'slim_smart_listing_rails/parches/helper_controller/helper_controller'
       end
-      # unless defined? ::Rails::Generators
-      # end
+    end
+    initializer "slim_smart_listing_rails.simple_form" do
+      unless defined? ::Rails::Generators
+        require 'slim_smart_listing_rails/simple_form/initializer'
+      end
     end
   end
 end

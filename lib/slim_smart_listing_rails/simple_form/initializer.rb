@@ -16,8 +16,18 @@
 module SimpleForm
   class FormBuilder < ActionView::Helpers::FormBuilder
     map_type :date, to: SlimSmartListingRails::FechaInput
+
+    def submit_button(*args, &block)
+      options = args.extract_options!.dup
+      options[:class] = ['btn-primary', options[:class]].compact
+      args << options
+      send(:submit, *args, &block)
+    end
   end
 end
+
+
+
 
 
 
@@ -123,6 +133,17 @@ SimpleForm.setup do |config|
 
   # vertical multi select
   config.wrappers :vertical_multi_select, tag: 'div', class: 'form-group', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+    b.use :html5
+    b.optional :readonly
+    b.use :label, class: 'form-control-label'
+    b.wrapper tag: 'div', class: 'd-flex flex-row justify-content-between align-items-center' do |ba|
+      ba.use :input, class: 'form-control mx-1', error_class: 'is-invalid', valid_class: 'is-valid'
+    end
+    b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
+    b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+  end
+
+  config.wrappers :selects_dependientes, tag: 'div', class: 'form-group dependent_fields', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
     b.use :html5
     b.optional :readonly
     b.use :label, class: 'form-control-label'
@@ -423,7 +444,8 @@ SimpleForm.setup do |config|
 
   # Custom wrappers for input types. This should be a hash containing an input
   # type as key and the wrapper that will be used for all inputs with specified type.
-  config.wrapper_mappings = {
+  config.wrapper_mappings = {} if config.wrapper_mappings.nil?
+  config.wrapper_mappings.merge!({
     boolean:       :vertical_boolean,
     check_boxes:   :vertical_collection,
     date:          :vertical_multi_select,
@@ -431,8 +453,8 @@ SimpleForm.setup do |config|
     file:          :vertical_file,
     radio_buttons: :vertical_collection,
     range:         :vertical_range,
-    time:          :vertical_multi_select
-  }
+    time:          :vertical_multi_select,
+  })
 
   # enable custom form wrappers
   # config.wrapper_mappings = {

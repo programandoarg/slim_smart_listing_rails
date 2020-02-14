@@ -10,11 +10,17 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   def index
     @<%= plural_table_name %> = <%= orm_class.all(class_name) %>
+
+    respond_to do |format|
+      format.json { render json: @<%= plural_table_name %> }
+      format.any do
 <% if namespaced? -%>
-    smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= namespaced_path %>/<%= plural_table_name %>/listing')
+        smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= namespaced_path %>/<%= plural_table_name %>/listing')
 <% else -%>
-    smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= plural_table_name %>/listing')
+        smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= plural_table_name %>/listing')
 <% end -%>
+      end
+    end
   end
 
   def show

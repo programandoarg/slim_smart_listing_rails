@@ -1,0 +1,11 @@
+.form-group {
+  /*transition: height .5s ease 0s;*/
+  transition: opacity .3s ease 0s;
+  opacity: 1;
+
+  &.ocultar {
+    /*height: 0px;*/
+    opacity: 0;
+  }
+}
+

@@ -1,5 +1,3 @@
-require "simple_form"
-
 module SlimSmartListingRails
   class FechaInput < SimpleForm::Inputs::StringInput
     def input(wrapper_options = nil)
