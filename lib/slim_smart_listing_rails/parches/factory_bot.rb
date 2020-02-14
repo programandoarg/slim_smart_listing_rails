@@ -43,6 +43,8 @@ module FactoryBot
           "Faker::Lorem.sentence"
         elsif attribute.type == :date
           "Faker::Date.backward"
+        elsif attribute.type == :float || attribute.type == :decimal
+          "Faker::Number.decimal(l_digits: 3, r_digits: 2)"
         else
           # byebug
           attribute.default.inspect
