@@ -24,9 +24,7 @@ module SlimSmartListingRails
       end
     end
     initializer "slim_smart_listing_rails.simple_form" do
-      unless defined? ::Rails::Generators
-        require 'slim_smart_listing_rails/simple_form/initializer'
-      end
+      require 'slim_smart_listing_rails/simple_form/initializer'
     end
   end
 end
