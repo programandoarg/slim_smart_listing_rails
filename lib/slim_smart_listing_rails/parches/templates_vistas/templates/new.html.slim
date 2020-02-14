@@ -1,5 +1,5 @@
 - content_for :title do
   | Crear 
-  | <%= singular_table_name %>
+  = t('activerecord.models.<%= singular_table_name.humanize %>')
 
 = render 'form'
