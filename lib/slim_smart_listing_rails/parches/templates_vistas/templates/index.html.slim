@@ -5,6 +5,11 @@
     |  Nuevo <%= human_name %>
 
 .form-wrapper
+  = smart_listing_controls_for(:<%= plural_table_name %>) do |c|
+  <% attributes_names.each do |atributo| %>
+    <%= "= render :partial => 'common/filter', locals: { key: 'filter_#{atributo}', placeholder: '#{atributo}' }" %>
+  <% end %>
+
   .card.float-e-margins
     .card-title
       h5 Listado de <%= plural_table_name %>

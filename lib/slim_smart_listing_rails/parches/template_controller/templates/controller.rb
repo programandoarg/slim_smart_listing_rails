@@ -8,6 +8,8 @@ require_dependency "<%= namespaced_path %>/application_controller"
 class <%= controller_class_name %>Controller < ApplicationController
   before_action :set_<%= singular_table_name %>, only: [:show, :edit, :update, :destroy]
 
+  add_breadcrumb "<%= plural_name.humanize %>", :<%= plural_table_name %>_path
+
   def index
     @<%= plural_table_name %> = <%= orm_class.all(class_name) %>
 
@@ -24,15 +26,19 @@ class <%= controller_class_name %>Controller < ApplicationController
   end
 
   def show
+    add_breadcrumb @<%= singular_table_name %>,@<%= singular_table_name %>
     @<%= singular_table_name %> = @<%= singular_table_name %>.decorate
   end
 
   def new
+    add_breadcrumb <%= "'Nuevo #{human_name}'" %>
+
     @<%= singular_table_name %> = <%= orm_class.build(class_name) %>
     @<%= singular_table_name %> = @<%= singular_table_name %>.decorate
   end
 
   def edit
+    add_breadcrumb @<%= singular_table_name %>
     @<%= singular_table_name %> = @<%= singular_table_name %>.decorate
   end
 
