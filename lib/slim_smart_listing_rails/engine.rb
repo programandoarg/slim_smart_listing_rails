@@ -2,6 +2,7 @@ require "simple_form"
 require 'slim_smart_listing_rails/simple_form/inputs/fecha_input'
 require 'slim_smart_listing_rails/simple_form/inputs/selects_dependientes_input'
 require 'slim_smart_listing_rails/base_decorator'
+require 'slim_smart_listing_rails/filtros_builder'
 
 module SlimSmartListingRails
   class Engine < ::Rails::Engine

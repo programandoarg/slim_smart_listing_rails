@@ -6,9 +6,7 @@
 
 .form-wrapper
   = smart_listing_controls_for(:<%= plural_table_name %>) do |c|
-  <% attributes_names.each do |atributo| %>
-    <%= "= render :partial => 'common/filter', locals: { key: 'filter_#{atributo}', placeholder: '#{atributo}' }" %>
-  <% end %>
+    = @filtros.filtros_html
 
   .card.float-e-margins
     .card-title

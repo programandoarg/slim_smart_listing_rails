@@ -11,27 +11,24 @@ class <%= controller_class_name %>Controller < ApplicationController
   add_breadcrumb "<%= plural_name.humanize %>", :<%= plural_table_name %>_path
 
   def index
-    @<%= plural_table_name %> = <%= orm_class.all(class_name) %>
+    @filtros = SlimSmartListingRails::FiltrosBuilder.new(
+      self, <%= class_name %>, [<%= attributes_names.map{|nombre| ":#{nombre}" }.join(', ') %>])
+    @<%= plural_table_name %> = @filtros.filtrar <%= orm_class.all(class_name) %>
 
     respond_to do |format|
       format.json { render json: @<%= plural_table_name %> }
-      format.any do
-<% if namespaced? -%>
-        smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= namespaced_path %>/<%= plural_table_name %>/listing')
-<% else -%>
-        smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= plural_table_name %>/listing')
-<% end -%>
-      end
+      format.js { render_smart_listing }
+      format.html { render_smart_listing }
     end
   end
 
   def show
-    add_breadcrumb @<%= singular_table_name %>,@<%= singular_table_name %>
+    add_breadcrumb @<%= singular_table_name %>, @<%= singular_table_name %>
     @<%= singular_table_name %> = @<%= singular_table_name %>.decorate
   end
 
   def new
-    add_breadcrumb <%= "'Nuevo #{human_name}'" %>
+    add_breadcrumb <%= "'Crear #{human_name}'" %>
 
     @<%= singular_table_name %> = <%= orm_class.build(class_name) %>
     @<%= singular_table_name %> = @<%= singular_table_name %>.decorate
@@ -46,7 +43,7 @@ class <%= controller_class_name %>Controller < ApplicationController
     @<%= singular_table_name %> = <%= orm_class.build(class_name, "#{singular_table_name}_params") %>
 
     if @<%= orm_instance.save %>
-      redirect_to @<%= singular_table_name %>, notice: <%= "'#{human_name} creado.'" %>
+      redirect_to @<%= singular_table_name %>, notice: <%= "'#{human_name} creado/a.'" %>
     else
       render :new
     end
@@ -54,7 +51,7 @@ class <%= controller_class_name %>Controller < ApplicationController
 
   def update
     if @<%= orm_instance.update("#{singular_table_name}_params") %>
-      redirect_to @<%= singular_table_name %>, notice: <%= "'#{human_name} actualizado.'" %>
+      redirect_to @<%= singular_table_name %>, notice: <%= "'#{human_name} actualizado/a.'" %>
     else
       render :edit
     end
@@ -65,6 +62,15 @@ class <%= controller_class_name %>Controller < ApplicationController
   end
 
   private
+
+    def render_smart_listing
+<% if namespaced? -%>
+      smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= namespaced_path %>/<%= plural_table_name %>/listing')
+<% else -%>
+      smart_listing(:<%= plural_table_name %>, @<%= plural_table_name %>, '<%= plural_table_name %>/listing')
+<% end -%>
+    end
+
     def set_<%= singular_table_name %>
       @<%= singular_table_name %> = <%= orm_class.find(class_name, "params[:id]") %>
     end
