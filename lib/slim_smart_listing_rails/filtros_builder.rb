@@ -17,6 +17,8 @@ module SlimSmartListingRails
           query = query.where("#{campo} = ?", params[campo])
         elsif tipo(campo) == :enumerized
           query = query.where("#{campo} = ?", params[campo])
+        elsif tipo(campo) == :asociacion
+          query = query.where("#{campo}_id = ?", params[campo])
         elsif tipo(campo) == :string
           query = query.where("#{campo} ILIKE '%#{params[campo]}%'")
         end
@@ -25,8 +27,10 @@ module SlimSmartListingRails
     end
 
     def tipo(campo)
-      if @clase_modelo.enumerized_attributes[campo.to_s].present?
+      if @clase_modelo.respond_to?(:enumerized_attributes) && @clase_modelo.enumerized_attributes[campo.to_s].present?
         :enumerized
+      elsif @clase_modelo.reflect_on_all_associations.find {|a| a.name == campo }.present?
+        :asociacion
       else
         columna = @clase_modelo.columns.find {|columna| columna.name == campo.to_s}
         columna.type
@@ -38,11 +42,24 @@ module SlimSmartListingRails
       @campos.each do |campo|
         if tipo(campo) == :enumerized
           res += filtro_select(campo, campo.to_s.humanize)
+        elsif tipo(campo) == :asociacion
+          res += filtro_asociacion(campo, campo.to_s.humanize)
         else
           res += filtro_texto(campo, campo.to_s.humanize)
         end
       end
       res.html_safe
+    end
+
+    def filtro_asociacion(campo, placeholder = '')
+      asociacion = @clase_modelo.reflect_on_all_associations.find {|a| a.name == campo }
+      clase_asociacion = Object.const_get(asociacion.options[:class_name])
+      map = clase_asociacion.all.map { |o| [o.to_s, o.id] }
+      map.unshift ["-", nil]
+      default = params[campo].nil? ? nil : params[campo]
+      content_tag :div, class: 'filter' do
+        select_tag campo, options_for_select(map, default), class: 'form-control pg-input-lg'
+      end
     end
 
     def filtro_select(campo, placeholder = '')
