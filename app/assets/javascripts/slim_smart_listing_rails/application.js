@@ -37,6 +37,16 @@ window.SlimSmartListingRails = new function() {
     });
     $('select[multiple=multiple]').selectize();
     $('form').dependent_fields();
+    $('.exportar').click(function() {
+      filtros = ''
+      $('.filter').each(function(i, elem) {
+        var input = $(elem).find('input,select');
+        filtros += input.attr('name') + '=' + input.val() + '&'
+      });
+
+      var url_get = $(this).data('url') + "?"+filtros;
+      window.location.href = url_get;
+    })
   }
 
   self.insert_options = function(element, options, default_option, template_id, atributo_nombre) {
