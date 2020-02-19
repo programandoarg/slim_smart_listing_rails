@@ -17,6 +17,7 @@ end
 require 'bundler/gem_tasks'
 
 require 'rake/testtask'
+load 'lib/tasks/auto_anotar_modelos.rake'
 
 Rake::TestTask.new(:test) do |t|
   t.libs << 'test'
