@@ -2,8 +2,10 @@
 - content_for :actions do
   = link_to new_<%= singular_table_name %>_path, class: 'btn btn-primary' do 
     span.fa.fa-plus
-    |  Nuevo <%= human_name %>
-
+    |  Crear <%= human_name %>
+  .btn.btn-warning.exportar data-url="#{<%= plural_table_name %>_path(format: 'xlsx')}"
+    span.fa.fa-list
+    |  Exportar
 .form-wrapper
   = smart_listing_controls_for(:<%= plural_table_name %>) do |c|
     = @filtros.filtros_html
