@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails", "~> 5.2.3"
   spec.add_dependency "slim-rails"
   spec.add_dependency "draper"
+  spec.add_dependency "pundit"
   spec.add_dependency "jquery-rails"
   spec.add_dependency 'smart_listing', '~> 1.2.3'
 

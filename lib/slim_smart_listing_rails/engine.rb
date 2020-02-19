@@ -18,6 +18,9 @@ module SlimSmartListingRails
     end
     config.after_initialize do
       if defined? ::Rails::Generators
+        require "pundit"
+        require 'generators/pundit/policy/policy_generator'
+        require 'slim_smart_listing_rails/parches/pundit/pundit'
         require 'slim_smart_listing_rails/parches/templates_vistas/templates_vistas'
         require 'slim_smart_listing_rails/parches/template_controller/template_controller'
       else

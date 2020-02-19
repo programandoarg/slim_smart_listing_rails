@@ -4,6 +4,8 @@ module Rails
       source_root File.expand_path(File.join('..', 'templates'), __FILE__)
 
       hook_for :decorator, type: :boolean, default: true
+
+      invoke Pundit::Generators::PolicyGenerator
     end
   end
 end
