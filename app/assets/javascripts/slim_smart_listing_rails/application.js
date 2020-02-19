@@ -27,6 +27,22 @@ window.SlimSmartListingRails = new function() {
     self.campo_dependiente_hacer(principal, dependiente, valor);
   }
   self.bindear = function() {
+    // $('table:has(.best_in_place)').css('table-layout', 'fixed');
+    $(".best_in_place").best_in_place();
+    $(".best_in_place").on('ajax:error', function(event, response) {
+      showToast("error", response.responseText)
+    });
+    $(".best_in_place").on('best_in_place:activate', function(event, response) {
+      var textarea = $(this).find('textarea');
+      if( textarea.length > 0 ) {
+        var valor = textarea.val();
+        valor = valor.replace(/<br>/g, "\n")
+        textarea.val(valor)
+      }
+    });
+    $(".best_in_place").on('ajax:success', function(event, response) {
+      showToast("success", "👍")
+    });
     $.fn.datepicker.defaults.format = 'dd/mm/yyyy';
     $('.datefield').datepicker({
       'format': 'dd/mm/yyyy',

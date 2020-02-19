@@ -1,30 +1,12 @@
 ActionController::Base.class_eval do
+  include Pundit
   include SmartListing::Helper::ControllerExtensions
   helper  SmartListing::Helper
   prepend_view_path File.expand_path(File.join('../../../vistas_compartidas'), __FILE__)
 
-  def editar_en_lugar
-    key_modelo = params.keys[1]
-    nombre_modelo = key_modelo.titleize.split.join
-    modelo = Kernel.const_get(nombre_modelo)
-    objeto = modelo.find params[:id]
-    authorize objeto
-    object_params = request.parameters[key_modelo]
-    objeto.update_attributes(object_params)
-    respond_with_bip(objeto)
-  rescue Pundit::NotAuthorizedError => e
-    objeto.errors.add(:base, "no autorizado")
-    respond_with_bip(objeto)
-  rescue Pundit::Error => e
-    Rollbar.error(e)
-    logger.error(e.message)
-    objeto.errors.add(:base, e.message)
-    respond_with_bip(objeto)
-  end
-
   protected
     def smart_listing(smart_listing_key, scope, partial)
-      smart_listing_create smart_listing_key, scope, partial: partial
+      smart_listing_create smart_listing_key, scope, partial: partial, default_sort: { id: :desc }
       if params["#{smart_listing_key}_smart_listing"].present?
         render partial: 'actualizar_smart_listing', locals: { smart_listing_key: smart_listing_key },
                layout: false, content_type: 'text/javascript'
