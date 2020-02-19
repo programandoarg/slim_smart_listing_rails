@@ -18,9 +18,9 @@ module SlimSmartListingRails
       end
     end
 
-    def destroy_link
+    def destroy_link(message = '¿Estás seguro?')
       helpers.content_tag :span, rel: :tooltip, title: 'Eliminar' do
-        helpers.link_to object_url, data: { confirm: '¿Estás seguro?' }, method: :delete, class: 'btn btn-sm btn-danger' do
+        helpers.link_to object_url, data: { confirm: message }, method: :delete, class: 'btn btn-sm btn-danger' do
           helpers.content_tag :span, nil, class: 'fa fa-trash'
         end
       end
