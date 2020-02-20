@@ -6,7 +6,8 @@ module FactoryBot
   module Generators
     class Base < Rails::Generators::NamedBase #:nodoc:
       def class_name_hack
-        (namespaced_class_path + [file_name]).map!(&:camelize).join("::")
+        return ([file_name]).map!(&:camelize).join("::") if (Rails::Generators.namespace.nil? || namespace.nil?)
+        return (namespaced_class_path + [file_name]).map!(&:camelize).join("::")
       end
 
       def explicit_class_option
